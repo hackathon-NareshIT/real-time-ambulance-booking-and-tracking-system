@@ -1,0 +1,5 @@
+package com.rapidcare.backend.controller;
+
+public class BookingController {
+
+}

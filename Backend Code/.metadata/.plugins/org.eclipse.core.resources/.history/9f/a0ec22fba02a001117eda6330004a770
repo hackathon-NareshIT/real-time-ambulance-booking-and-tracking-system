@@ -1,0 +1,10 @@
+spring.application.name=rapidcare-backend
+spring.datasource.url=mysql://root:MajBSFovyBumigChkOIhmaNqagoJlDJP@gondola.proxy.rlwy.net:14498/railway
+spring.datasource.username=root
+spring.datasource.password=MajBSFovyBumigChkOIhmaNqagoJlDJP
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+server.port=8080

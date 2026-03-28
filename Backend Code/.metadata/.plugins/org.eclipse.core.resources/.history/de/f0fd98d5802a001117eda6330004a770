@@ -1,0 +1,5 @@
+package com.rapidcare.backend.entity;
+
+public class Booking {
+
+}

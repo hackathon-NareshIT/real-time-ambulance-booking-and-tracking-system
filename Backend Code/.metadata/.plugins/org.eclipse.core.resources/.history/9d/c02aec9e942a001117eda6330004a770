@@ -1,0 +1,49 @@
+package com.rapidcare.backend.controller;
+import com.rapidcare.backend.entity.Booking;
+import com.rapidcare.backend.service.BookingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/booking")
+@CrossOrigin
+
+public class BookingController {
+	@Autowired
+    private BookingService bookingService;
+
+    // Emergency booking
+    @PostMapping("/create")
+    public Booking createBooking(@RequestParam Long userId,
+                                 @RequestParam Double lat,
+                                 @RequestParam Double lng,
+                                 @RequestParam Long hospitalId) {
+
+        return bookingService.createBooking(userId, lat, lng, hospitalId);
+    }
+
+    // Driver accepts
+    @PutMapping("/accept/{id}")
+    public Booking acceptBooking(@PathVariable Long id) {
+        return bookingService.acceptBooking(id);
+    }
+
+    // Cancel
+    @PutMapping("/cancel/{id}")
+    public Booking cancelBooking(@PathVariable Long id) {
+        return bookingService.cancelBooking(id);
+    }
+
+    // All bookings
+    @GetMapping("/all")
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
+    
+    @PutMapping("/complete/{id}")
+    public Booking completeBooking(@PathVariable Long id) {
+        return bookingService.completeBooking(id);
+    }
+}

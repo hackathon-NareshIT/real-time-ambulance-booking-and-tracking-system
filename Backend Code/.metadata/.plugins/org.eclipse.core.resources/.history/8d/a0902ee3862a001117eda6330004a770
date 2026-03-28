@@ -1,0 +1,5 @@
+package com.rapidcare.backend.SecurityConfig;
+
+public class SecurityConfig {
+
+}

@@ -1,0 +1,23 @@
+package com.rapidcare.backend.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "ambulances")
+public class Ambulance {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String type; // ICU / NORMAL
+
+    private String status; // AVAILABLE / BUSY
+
+    @OneToOne
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
+}

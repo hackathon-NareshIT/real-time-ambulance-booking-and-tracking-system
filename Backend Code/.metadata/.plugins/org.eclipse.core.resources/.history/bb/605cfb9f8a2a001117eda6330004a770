@@ -1,0 +1,80 @@
+package com.rapidcare.backend.service;
+import com.rapidcare.backend.entity.*;
+import com.rapidcare.backend.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BookingService {
+	@Autowired
+    private BookingRepository bookingRepository;
+
+    @Autowired
+    private DriverRepository driverRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private HospitalRepository hospitalRepository;
+
+    //  Emergency Booking
+    public Booking createBooking(Long userId, Double lat, Double lng, Long hospitalId) {
+
+        User user = userRepository.findById(userId).orElse(null);
+        Hospital hospital = hospitalRepository.findById(hospitalId).orElse(null);
+
+        List<Driver> availableDrivers = driverRepository.findByAvailableTrue();
+
+        Driver assignedDriver = null;
+
+        if (!availableDrivers.isEmpty()) {
+            assignedDriver = availableDrivers.get(0); // simple logic (first driver)
+            assignedDriver.setAvailable(false);
+            driverRepository.save(assignedDriver);
+        }
+
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setDriver(assignedDriver);
+        booking.setHospital(hospital);
+        booking.setPickupLat(lat);
+        booking.setPickupLng(lng);
+        booking.setStatus("REQUESTED");
+
+        return bookingRepository.save(booking);
+    }
+
+    //  Driver Accept
+    public Booking acceptBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId).orElse(null);
+        if (booking != null) {
+            booking.setStatus("ACCEPTED");
+            return bookingRepository.save(booking);
+        }
+        return null;
+    }
+
+    // ❌ Cancel Booking
+    public Booking cancelBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId).orElse(null);
+        if (booking != null) {
+            booking.setStatus("CANCELLED");
+
+            Driver driver = booking.getDriver();
+            if (driver != null) {
+                driver.setAvailable(true);
+                driverRepository.save(driver);
+            }
+
+            return bookingRepository.save(booking);
+        }
+        return null;
+    }
+
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
+}

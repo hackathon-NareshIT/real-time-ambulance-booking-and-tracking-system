@@ -1,0 +1,36 @@
+package com.rapidcare.backend.service;
+
+import com.rapidcare.backend.entity.Driver;
+import com.rapidcare.backend.repository.DriverRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class DriverService {
+	 @Autowired
+	    private DriverRepository driverRepository;
+
+	    public List<Driver> getAvailableDrivers() {
+	        return driverRepository.findByAvailableTrue();
+	    }
+
+	    public Driver saveDriver(Driver driver) {
+	        return driverRepository.save(driver);
+	    }
+
+	    public Driver getDriverById(Long id) {
+	        return driverRepository.findById(id).orElse(null);
+	    }
+
+	    public Driver updateLocation(Long id, Double lat, Double lng) {
+	        Driver driver = getDriverById(id);
+	        if (driver != null) {
+	            driver.setLatitude(lat);
+	            driver.setLongitude(lng);
+	            return driverRepository.save(driver);
+	        }
+	        return null;
+	    }
+}
