@@ -1,0 +1,2 @@
+# real-time-ambulance-booking-and-tracking-system
+In many emergency situations, patients and their families face difficulty in quickly finding and booking an available ambulance. Traditional ambulance services mostly rely on phone calls, which can cause delays in response time and confusion about ambulance availability. Additionally, there is usually no proper system to track the ambulance locatio
